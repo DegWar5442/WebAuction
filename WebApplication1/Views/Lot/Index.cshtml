@@ -1,0 +1,135 @@
+﻿@model IEnumerable<WebApplication1.Models.Lot>
+
+<div class="container mt-5">
+    <h1 class="display-4 text-center">Лоти</h1>
+
+    <form asp-action="Index" method="get" class="form-inline my-4 justify-content-center">
+        <div class="form-group mx-2">
+            <input type="text" name="searchString" class="form-control" placeholder="Пошук лота..." />
+        </div>
+        <div class="form-group mx-2">
+            <input type="number" name="minPrice" class="form-control" placeholder="Мін. ціна" />
+        </div>
+        <div class="form-group mx-2">
+            <input type="number" name="maxPrice" class="form-control" placeholder="Макс. ціна" />
+        </div>
+        <div class="form-group mx-2">
+            <select name="sortOrder" class="form-control">
+                <option value="">Сортувати за...</option>
+                <option value="price_asc">Ціною: Від низького до високого</option>
+                <option value="price_desc">Ціною: Від високого до низького</option>
+                <option value="date_asc">Датою: Новіші</option>
+                <option value="date_desc">Датою: Старіші</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Пошук</button>
+    </form>
+
+    <div class="text-center mb-4">
+        <button id="exportExcel" class="btn btn-success">Експорт в Excel</button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Опис</th>
+                <th>Мінімальна ціна</th>
+                <th>Ціна викупу</th>
+                <th>Максимальна ставка</th>
+                <th>Дата створення</th>
+                <th>Деталі</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lot in Model)
+            {
+                <tr>
+                    <td>@lot.Description</td>
+                    <td>@lot.MinPrice</td>
+                    <td>@lot.BuyoutPrice</td>
+                    <td>@lot.CurrentBid</td>
+                    <td>@lot.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                    <td>
+                        <a asp-action="LotDetails" asp-route-id="@lot.Id" class="btn btn-info">Деталі</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <a asp-action="AddLot" class="btn btn-primary btn-lg">Додати новий лот</a>
+    </div>
+
+    <div class="text-center mt-4">
+        <label for="chartType">Тип графіку:</label>
+        <select id="chartType" class="form-control w-auto d-inline-block">
+            <option value="bar">Шкала</option>
+            <option value="line">Лінія</option>
+            <option value="pie">Коло</option>
+        </select>
+    </div>
+
+    <div class="mt-5">
+        <canvas id="bidsChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var chartType = document.getElementById('chartType').value;
+            var ctx = document.getElementById('bidsChart').getContext('2d');
+            var bidsChart = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.Select(l => l.Description))),
+                    datasets: [{
+                        label: 'Current Bids',
+                        data: @Html.Raw(Json.Serialize(Model.Select(l => l.CurrentBid))),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('exportExcel').addEventListener('click', function () {
+                window.location.href = '@Url.Action("ExportToExcel", "Lot")';
+            });
+
+            document.getElementById('chartType').addEventListener('change', function () {
+                bidsChart.destroy();
+                chartType = this.value;
+                bidsChart = new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: @Html.Raw(Json.Serialize(Model.Select(l => l.Description))),
+                        datasets: [{
+                            label: 'Current Bids',
+                            data: @Html.Raw(Json.Serialize(Model.Select(l => l.CurrentBid))),
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

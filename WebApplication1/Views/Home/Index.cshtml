@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Головна сторінка";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-4">Вітаємо</h1>
+    
+    <p>Знаходьте те, що вас цікавить та отримайте можливість виграти. </p>
+    <div class="mt-4">
+        <a class="btn btn-primary btn-lg mx-2" asp-controller="Lot" asp-action="Index">Переглянути лоти</a>
+        <a class="btn btn-secondary btn-lg mx-2" asp-controller="User" asp-action="Register">Зареєструватися</a>
+        <a class="btn btn-secondary btn-lg mx-2" asp-controller="User" asp-action="Login">Вхід</a>
+    </div>
+</div>
+
+<style>
+    .text-center {
+        margin-top: 50px;
+    }
+
+    .btn-lg {
+        padding: 15px 30px;
+        font-size: 18px;
+    }
+
+    .lead {
+        font-size: 20px;
+    }
+</style>

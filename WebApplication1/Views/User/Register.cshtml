@@ -1,0 +1,35 @@
+﻿@model WebApplication1.Models.User
+
+<div class="container mt-5">
+    <h1 class="display-4 text-center">Регістрація</h1>
+    <form asp-action="Register" method="post">
+        <div class="form-group">
+            <label asp-for="UserName">Ім'я'</label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email">Пошта</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Пароль</label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Зареєструватися</button>
+    </form>
+</div>
+
+<style>
+    .container {
+        
+        margin: auto;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,122 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #343a40;
+    padding: 10px 20px;
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important;
+    font-size: 16px;
+}
+
+    .nav-link:hover {
+        color: #cccccc !important;
+    }
+
+h1, h4 {
+    color: #343a40;
+}
+
+    h1.display-4 {
+        font-size: 2.5rem;
+    }
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+    .table th {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    .table td {
+        background-color: #ffffff;
+        color: #343a40;
+    }
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+footer {
+    padding: 20px 0;
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 10px;
+}
+
+.table th, .table td {
+    text-align: center;
+}
+
+.table th {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+    footer a:hover {
+        color: #cccccc;
+    }

@@ -1,0 +1,99 @@
+﻿@model WebApplication1.Models.Lot
+
+<div class="container mt-5">
+    <h1 class="display-4 text-center">Деталі лоту</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Лот</h4>
+            <dl class="row">
+                <dt class="col-sm-3">Опис</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+                <dt class="col-sm-3">Мінімальна ціна</dt>
+                <dd class="col-sm-9">@Model.MinPrice</dd>
+                <dt class="col-sm-3">Ціна викупу</dt>
+                <dd class="col-sm-9">@Model.BuyoutPrice</dd>
+                <dt class="col-sm-3">Найбільша ставка</dt>
+                <dd class="col-sm-9">@Model.CurrentBid</dd>
+                <dt class="col-sm-3">Created Date</dt>
+                <dd class="col-sm-9">@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <h2 class="text-center">Зробити ставку</h2>
+    <form asp-action="PlaceBid" method="post" class="mb-4">
+        <input type="hidden" name="lotId" value="@Model.Id" />
+        <div class="form-group">
+            <label for="amount">Величина ставки</label>
+            <input type="number" name="amount" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Зробити ставку</button>
+    </form>
+
+    <h2 class="text-center">Історія ставок</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Запропонована ціна</th>
+                <th>Час ставки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bid in ViewBag.LotBids)
+            {
+                <tr>
+                    <td>@bid.Amount</td>
+                    <td>@bid.BidTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2 class="text-center">Коментарі</h2>
+    <form asp-action="AddComment" method="post" class="mb-4">
+        <input type="hidden" name="lotId" value="@Model.Id" />
+        <div class="form-group">
+           
+            <textarea name="content" class="form-control" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Додати коментар</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Контент</th>
+                <th>Дата створення</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in ViewBag.LotComments)
+            {
+                <tr>
+                    <td>@comment.Content</td>
+                    <td>@comment.CreatedDate.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-primary btn-lg">Назад</a>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+</style>
